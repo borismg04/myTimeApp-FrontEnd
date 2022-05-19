@@ -8,8 +8,11 @@ import reportWebVitals from './reportWebVitals';
 /* import store from './store'; */
 
 ReactDOM.render(
+
   <React.StrictMode>
+  {/* <div className='bg-gray-100 min-h-screen '> */}
     <App />
+  {/* </div> */}
   </React.StrictMode>,
   document.getElementById('root'),
 );
