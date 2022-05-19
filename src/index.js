@@ -10,9 +10,7 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
 
   <React.StrictMode>
-  {/* <div className='bg-gray-100 min-h-screen '> */}
     <App />
-  {/* </div> */}
   </React.StrictMode>,
   document.getElementById('root'),
 );

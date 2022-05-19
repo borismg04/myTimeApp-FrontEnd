@@ -4,7 +4,7 @@ const Login = () => {
   return (
     <>
       
-      <h1 className="text-sky-600 font-black text-6xl capitalize">Iniciar Sesión & Administra tus 
+      <h1 className="text-sky-600 font-black text-6xl capitalize">Inicia Sesión & Administra tus 
       <span className="text-slate-700"> Proyectos</span>
       </h1>
 
@@ -43,9 +43,14 @@ const Login = () => {
 
       <nav className="lg:flex lg:justify-between">
         <Link
-          className='block text-center my-5 text-slate-500 uppercase text-sm'        
+          className='uppercase block text-center my-5 text-slate-500 text-sm'        
           to="/registrar"
-        >¿ No tienes una cuenta ? REGISTRATE </Link>
+        >¿No tienes una cuenta? Regístrate</Link>
+      
+        <Link
+          className='uppercase block text-center my-5 text-slate-500 text-sm'        
+          to="/olvide-password"
+        >¿Olvidaste tu Contraseña?</Link>
       </nav>
     </>
   )
