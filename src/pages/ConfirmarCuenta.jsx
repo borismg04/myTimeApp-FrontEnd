@@ -16,6 +16,7 @@ const ConfirmarCuenta = () => {
 
     const ConfirmarCuenta = async () => {
       try {
+        //TODO: Mover hacia un cliente Axios
         const url = `http://localhost:8080/api/users/confirmar/${id}`;
         const { data } = await axios(url);
 

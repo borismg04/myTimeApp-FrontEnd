@@ -20,6 +20,7 @@ const OlvidePassword = () => {
     }
   
     try {
+      //TODO: Mover hacia un cliente Axios
       const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/olvide-password`, {
         email
       });
