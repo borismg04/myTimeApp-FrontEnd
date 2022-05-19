@@ -44,7 +44,7 @@ const Registrar = () => {
 
     // Enviar el request a la API
     try {
-      const { data } = await axios.post('http://localhost:8080/api/users', {
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/users`, {
         nombre,
         email,
         password
@@ -54,6 +54,12 @@ const Registrar = () => {
         msg: data.msg,
         error: false
       });
+
+      setNombre("");
+      setEmail("");
+      setPassword("");
+      setRepetirPassword("");
+
     } catch (error) {
       console.log(error.response.data.msg);
       setAlerta({
@@ -61,6 +67,7 @@ const Registrar = () => {
         error: true
       });
     }
+    
 
   }
   

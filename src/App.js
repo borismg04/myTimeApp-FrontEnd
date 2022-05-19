@@ -5,7 +5,6 @@ import Registrar from './pages/Registrar';
 import OlvidePassword from './pages/OlvidePassword';
 import NuevoPassword from './pages/NuevoPassword';
 import ConfirmarCuenta from './pages/ConfirmarCuenta';
-
 import './App.css';
 
 function App() {
