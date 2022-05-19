@@ -28,12 +28,12 @@ const Login = () => {
             className="uppercase text-gray-600 block text-xl font-bold"
             htmlFor="password"
           >
-            Password
+            Contraseña
           </label>
           <input
             id="password"
             type="password"
-            placeholder="Ingresa tu Password de Registro"
+            placeholder="Ingresa tu Contraseña de Registro"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-100"
           />
         </div>

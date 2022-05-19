@@ -13,19 +13,19 @@ const NuevoPassword = () => {
             className="uppercase text-gray-600 block text-xl font-bold"
             htmlFor="password"
           >
-            Password
+            Nueva Contraseña
           </label>
           <input
             id="password"
             type="password"
-            placeholder="Ingresa tu Password de Registro"
+            placeholder="Ingresa tu Nueva Contraseña"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-100"
           />
         </div>
 
         <input
           type="submit"
-          value="Crear Cuenta"
+          value="Guardar Nueva Contraseña"
           className="w-full bg-sky-700 mb-5 py-3 text-white uppercase font-bold rounded-xl
             hover:cursor-pointer hover:bg-sky-800 transiton-colors"
         />
