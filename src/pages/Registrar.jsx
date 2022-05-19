@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Alerta from "../components/Alerta";
+import axios from "axios";
 
 const Registrar = () => {
   const [ nombre, setNombre ] = useState("");
@@ -9,16 +10,58 @@ const Registrar = () => {
   const [ repetirPassword, setRepetirPassword ] = useState("");
   const [ alerta, setAlerta ] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if([ nombre, email, password, repetirPassword ].includes("")) {
       setAlerta({
-        msg: "Todos los campos son obligatorios",
+        msg: "Todos los campos son obligatorios ⛔",
         error: true
       });
       return;
     }
+
+    if(password !== repetirPassword) {
+      setAlerta({
+        msg: "Las contraseñas no coinciden ⚠️",
+        error: true
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      setAlerta({
+        msg: "La contraseña es muy corta, debe tener al menos 6 caracteres ⚠️",
+        error: true
+      });
+      return;
+    }
+
+    setAlerta({
+      msg: "Registro exitoso ✅",
+      error: false
+    });
+
+    // Enviar el request a la API
+    try {
+      const { data } = await axios.post('http://localhost:8080/api/users', {
+        nombre,
+        email,
+        password
+      });
+
+      setAlerta ({
+        msg: data.msg,
+        error: false
+      });
+    } catch (error) {
+      console.log(error.response.data.msg);
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true
+      });
+    }
+
   }
   
   const { msg } = alerta
