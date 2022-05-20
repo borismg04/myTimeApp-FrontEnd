@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthProvider';
 import Proyectos from './pages/Proyectos';
 import RutaProtegida from './layouts/RutaProtegida';
 import NuevoProyecto from './pages/NuevoProyecto';
+import ProyectoUnico from './pages/ProyectoUnico';
 import { ProyectosProvider } from './context/ProyectosProvider';
 
 import './App.css';
@@ -30,6 +31,7 @@ function App() {
             <Route path="/proyectos" element={<RutaProtegida />}>
               <Route index element={<Proyectos />}/>
               <Route path="crear-proyecto" element={<NuevoProyecto />} />
+              <Route path=":id" element={<ProyectoUnico />} />
             </Route>
           </Routes>
         </ProyectosProvider>
