@@ -6,18 +6,21 @@ const ProyectoUnico = () => {
 
   const params = useParams();
 
-  const { obtenerProyectoUnico , proyecto} = useProyectos();
+  const { obtenerProyectoUnico , proyecto , cargando } = useProyectos();
 
   useEffect(() => {
     obtenerProyectoUnico(params.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   } , []);
 
-  const {nombre}= proyecto;
+  const {nombre }= proyecto;
 
   return (
+
+    cargando ? '...' : (
     <div>
       <h1 className='font-black text-4xl'>{nombre}</h1>
-    </div>
+    </div>)
   )
 }
 
