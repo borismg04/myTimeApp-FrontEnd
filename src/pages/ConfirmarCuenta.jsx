@@ -17,7 +17,7 @@ const ConfirmarCuenta = () => {
     const ConfirmarCuenta = async () => {
       try {
         //TODO: Mover hacia un cliente Axios
-        const url = `http://localhost:8080/api/users/confirmar/${id}`;
+        const url = `${process.env.REACT_APP_API_URL}/api/users/confirmar/${id}`;
         const { data } = await axios(url);
 
         setAlerta({
@@ -36,7 +36,8 @@ const ConfirmarCuenta = () => {
         
     }
       ConfirmarCuenta();
-    }, [  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const { msg } = alerta;
     
