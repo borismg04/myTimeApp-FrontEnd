@@ -15,9 +15,12 @@ const ProyectoUnico = () => {
 
   const {nombre }= proyecto;
 
-  return (
+  if(cargando){
+    return 'Cargando ...';
+  }
 
-    cargando ? '...' : (
+  return (
+    
     <div className='flex justify-between'>
       <h1 className='font-black text-4xl'>{nombre}</h1>
 
@@ -32,7 +35,7 @@ const ProyectoUnico = () => {
           className= 'uppercase font-bold'
         >Editar</Link>
       </div>
-    </div>)
+    </div>
   )
 }
 

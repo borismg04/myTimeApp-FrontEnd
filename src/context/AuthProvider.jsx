@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
       try {
         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/perfil`, config);
         setAuth(data);
-        navigate('/proyectos');
+        // navigate('/proyectos');
       } catch (error) {
         setAuth({});
       }

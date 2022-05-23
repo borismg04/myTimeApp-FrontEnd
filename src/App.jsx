@@ -10,6 +10,7 @@ import Proyectos from './pages/Proyectos';
 import RutaProtegida from './layouts/RutaProtegida';
 import NuevoProyecto from './pages/NuevoProyecto';
 import ProyectoUnico from './pages/ProyectoUnico';
+import EditarProyecto from './pages/EditarProyectos';
 import { ProyectosProvider } from './context/ProyectosProvider';
 
 import './App.css';
