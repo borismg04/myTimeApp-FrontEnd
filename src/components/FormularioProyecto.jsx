@@ -22,6 +22,7 @@ const FormularioProyecto = () => {
       setFechaEntrega(proyecto.fechaEntrega?.split("T")[0])
       setCliente(proyecto.cliente)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   } , [params])
   
 
