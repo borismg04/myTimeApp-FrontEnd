@@ -160,7 +160,39 @@ const ProyectosProvider = ({ children }) => {
   } 
 
   const eliminarProyecto = async id => {
-    console.log("Eliminando :",id);
+    try {
+      const token = localStorage.getItem("token");
+
+      if(!token){
+        return
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.delete(`${process.env.REACT_APP_API_URL}/api/proyectos/${id}`,config);
+    
+    // Sincronizar el state
+    const proyectosActualizados = proyectos.filter(proyectoState => proyectoState._id !== id);
+    setProyectos(proyectosActualizados);
+    // Mostrar alerta
+    setAlerta({
+      msg: data.msg,
+      error: false
+    });
+    // Redireccionar
+    setTimeout(() => {
+      setAlerta({});
+      navigate("/proyectos");
+    }, 2500);
+
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
