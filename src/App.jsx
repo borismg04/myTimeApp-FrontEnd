@@ -32,6 +32,7 @@ function App() {
               <Route index element={<Proyectos />}/>
               <Route path="crear-proyecto" element={<NuevoProyecto />} />
               <Route path=":id" element={<ProyectoUnico />} />
+              <Route path="editar/:id" element={<EditarProyecto />} />
             </Route>
           </Routes>
         </ProyectosProvider>
