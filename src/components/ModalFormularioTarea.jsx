@@ -203,11 +203,7 @@ const ModalFormularioTarea = () => {
                                         uppercase font-bold cursor-pointer transition-colors rounded text-sm'
                                         value={id ? 'Guardar Cambios' : 'Crear Tarea'}
                                       />
-
-                                      
-
                                     </form>
-
                                 </div>
                             </div>
                         </div>
