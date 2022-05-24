@@ -12,6 +12,7 @@ const ProyectosProvider = ({ children }) => {
   const [cargando , setCargando] = useState(false);
   const [ModalFormularioTarea , setModalFormularioTarea] = useState(false);
   const [tarea , setTarea] = useState({});
+  const [ModalEliminarTarea , setModalEliminarTarea] = useState(false);
 
   const navigate = useNavigate();
 
@@ -269,7 +270,7 @@ const ProyectosProvider = ({ children }) => {
     // Mostrar alerta
     setAlerta({});
     setModalFormularioTarea(false);
-    
+
     } catch (error) {
       console.log('error:', error)
     }
@@ -278,6 +279,11 @@ const ProyectosProvider = ({ children }) => {
   const handleModalEditarTarea = tarea => {
     setTarea(tarea);
     setModalFormularioTarea(true);
+  }
+
+  const handleEliminarTarea = async tarea => {
+    setTarea(tarea);
+    setModalEliminarTarea(!ModalEliminarTarea);
   }
 
   return (
@@ -295,7 +301,9 @@ const ProyectosProvider = ({ children }) => {
         handlerModalTarea,
         submitTarea,
         handleModalEditarTarea,
-        tarea
+        tarea,
+        handleEliminarTarea,
+        ModalEliminarTarea,
       }}
       >{children}
       </ProyectosContext.Provider>
