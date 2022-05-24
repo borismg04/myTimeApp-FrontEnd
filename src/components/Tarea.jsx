@@ -17,7 +17,7 @@ const Tarea = ({tarea}) => {
 
       <div className="flex gap-2">
         <button
-          className="bg-indigo-600 px-4 py-3 text-white uppercase font-bold text-sm rounded-lg"
+          className="bg-sky-600 px-4 py-3 text-white uppercase font-bold text-sm rounded-lg"
         >Editar
         </button>
           {estado ?(
