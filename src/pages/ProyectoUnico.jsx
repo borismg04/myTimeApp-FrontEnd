@@ -7,7 +7,7 @@ const ProyectoUnico = () => {
 
   const params = useParams();
 
-  const { obtenerProyectoUnico , proyecto , cargando } = useProyectos();
+  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea } = useProyectos();
 
   const [modal , setModal] = useState(false);
 
@@ -40,7 +40,7 @@ const ProyectoUnico = () => {
       </div>
     </div>
       <button
-        onClick={() => setModal(true)}      
+        onClick={handlerModalTarea}    
         type="button"
         className="text-sm px-5 py-3 w-full md:w-auto rounded-lg uppercase font-bold
         bg-sky-400 text-white text-center mt-5 flex gap-2 items-center shadow-md justify-center"
@@ -52,7 +52,7 @@ const ProyectoUnico = () => {
       Nueva Tarea
       </button>
 
-      <ModalFormularioTarea 
+      <ModalFormularioTarea
         modal={modal}
         setModal={setModal}
       />

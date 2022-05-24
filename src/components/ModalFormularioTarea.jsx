@@ -1,12 +1,18 @@
 import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import useProyectos from '../hooks/useProyectos'
 
+const ModalFormularioTarea = () => {
 
-const ModalFormularioTarea = ({modal , setModal }) => {
- 
+  const [nombre , setNombre ]=useState('');
+  const [descripcion , setDescripcion ]=useState('');
+  const [prioridad , setPrioridad ]=useState('');
+
+  const { ModalFormularioTarea, handlerModalTarea}= useProyectos();
+
     return (
-        <Transition.Root show={modal} as={Fragment}>
-            <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={()=> setModal(false) }>
+        <Transition.Root show={ModalFormularioTarea} as={Fragment}>
+            <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={ handlerModalTarea }>
                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -43,7 +49,7 @@ const ModalFormularioTarea = ({modal , setModal }) => {
                                 <button
                                     type="button"
                                     className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    onClick={()=> setModal(false) }
+                                    onClick={ handlerModalTarea }
                                 >
                                 <span className="sr-only">Cerrar</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
@@ -56,8 +62,43 @@ const ModalFormularioTarea = ({modal , setModal }) => {
                             <div className="sm:flex sm:items-start">
                                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                                     <Dialog.Title as="h3" className="text-lg leading-6 font-bold text-gray-900">
-                                        
+                                        Crear Tarea
                                     </Dialog.Title>
+
+                                    <form className='my-10'>
+                                      <div className='mb-5'>
+                                        <label
+                                          className='text-gray-700 uppercase font-bold text-sm'
+                                          htmlFor='nombre'
+                                        >
+                                          Nombre Tarea
+                                        </label>
+                                        <input
+                                          type='text'
+                                          id='nombre'
+                                          placeholder={'Nombre de la Tarea'}
+                                          className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md'
+                                          value={nombre}
+                                          onChange={(e)=>{setNombre(e.target.value)}}
+                                        />
+                                      </div>
+
+                                      <div className='mb-5'>
+                                        <label
+                                          className='text-gray-700 uppercase font-bold text-sm'
+                                          htmlFor='descripcion'
+                                        >
+                                          Descripción de la Tarea
+                                        </label>
+                                        <textarea
+                                          id='descripcion'
+                                          placeholder='Descripción de la Tarea'
+                                          className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md'
+                                          value={descripcion}
+                                          onChange={(e)=>{setDescripcion(e.target.value)}}
+                                        />
+                                      </div>
+                                    </form>
 
                                 </div>
                             </div>
