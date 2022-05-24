@@ -6,19 +6,20 @@ const FormularioColaborador = () => {
 
   const [email , setEmail] = useState(""); 
 
-  const { mostrarAlerta, alerta } = useProyectos();
+  const { mostrarAlerta, alerta , submitColaborador } = useProyectos();
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(email);
 
     if(email === ""){
       mostrarAlerta({
-        msg: "El Email es Obligatorio ⚠️",
+        msg: "El Email es Obligatorio ⛔",
         error: true
       });
       return;
     }
+
+    submitColaborador(email);
   }
 
   const { msg } = alerta;
