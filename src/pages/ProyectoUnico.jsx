@@ -2,13 +2,15 @@ import { useEffect} from 'react';
 import { useParams ,Link } from 'react-router-dom';
 import useProyectos from '../hooks/useProyectos';
 import ModalFormularioTarea from '../components/ModalFormularioTarea';
+import ModalEliminarTarea from '../components/ModalEliminarTarea';
 import Tarea from '../components/Tarea';
+import Alerta from '../components/Alerta';
 
 const ProyectoUnico = () => {
 
   const params = useParams();
 
-  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea } = useProyectos();
+  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea, alerta } = useProyectos();
 
   useEffect(() => {
     obtenerProyectoUnico(params.id);
@@ -16,13 +18,12 @@ const ProyectoUnico = () => {
   } , []);
 
   const {nombre }= proyecto;
-  console.log('proyecto:', proyecto)
-
-
 
   if(cargando){
     return 'Cargando ...';
   }
+
+  const { msg } = alerta;
 
   return (
     <>
@@ -56,6 +57,8 @@ const ProyectoUnico = () => {
 
       <p className='font-bold text-xl mt-10'>Tareas del Proyecto</p>
 
+      {msg && <Alerta alerta={alerta} />}
+
       <div className='bg-white shadow mt-10 rounded-lg'>
         {proyecto.tareas?.length ? 
           proyecto.tareas?.map(tarea => (
@@ -68,6 +71,7 @@ const ProyectoUnico = () => {
       </div>
       
       <ModalFormularioTarea/>
+      <ModalEliminarTarea/>
     </>
   )
 }

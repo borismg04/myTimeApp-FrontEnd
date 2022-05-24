@@ -38,7 +38,7 @@ const Tarea = ({tarea}) => {
 
         <button
           className="bg-red-600 px-4 py-3 text-white uppercase font-bold text-sm rounded-lg"
-          onClick={handleEliminarTarea}
+          onClick={() => handleEliminarTarea(tarea)}
         >Eliminar
         </button>
 

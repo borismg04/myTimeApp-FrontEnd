@@ -18,7 +18,6 @@ const ProyectosProvider = ({ children }) => {
 
   useEffect(() => {
 
-    console.log('PRUEBA 1')
     const obtenerProyectos = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -35,7 +34,6 @@ const ProyectosProvider = ({ children }) => {
         };
 
         const { data }= await axios.get(`${process.env.REACT_APP_API_URL}/api/proyectos`, config);
-        console.log('data :', data )
         setProyectos(data);
 
       } catch (error) {
@@ -286,6 +284,41 @@ const ProyectosProvider = ({ children }) => {
     setModalEliminarTarea(!ModalEliminarTarea);
   }
 
+  const eliminarTarea = async ()=> {
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.delete(`${process.env.REACT_APP_API_URL}/api/tareas/${tarea._id}`,config);
+    setAlerta({
+      msg: data.msg,
+      error: false
+    });
+    setTimeout(() => {
+      setAlerta({});
+    } , 2500);
+      
+
+    // Sincronizar el state
+    const proyectosActualizado = { ...proyecto };
+    proyectosActualizado.tareas = proyectosActualizado.tareas.filter(tareaState => tareaState._id !== tarea._id);
+    
+    setProyecto(proyectosActualizado);
+    setModalEliminarTarea(false);
+    setTarea({});
+    } catch (error) {
+      console.log('error:', error)
+    }
+  }
+
   return (
     <ProyectosContext.Provider 
       value={{
@@ -304,6 +337,7 @@ const ProyectosProvider = ({ children }) => {
         tarea,
         handleEliminarTarea,
         ModalEliminarTarea,
+        eliminarTarea
       }}
       >{children}
       </ProyectosContext.Provider>
