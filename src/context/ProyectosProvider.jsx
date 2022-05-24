@@ -10,6 +10,7 @@ const ProyectosProvider = ({ children }) => {
   const [alerta , setAlerta] = useState({});
   const [proyecto , setProyecto] = useState({});
   const [cargando , setCargando] = useState(false);
+  const [ModalFormularioTarea , setModalFormularioTarea] = useState(false);
 
   const navigate = useNavigate();
 
@@ -159,6 +160,76 @@ const ProyectosProvider = ({ children }) => {
     setCargando(false);
   } 
 
+  const eliminarProyecto = async id => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if(!token){
+        return
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.delete(`${process.env.REACT_APP_API_URL}/api/proyectos/${id}`,config);
+    
+    // Sincronizar el state
+    const proyectosActualizados = proyectos.filter(proyectoState => proyectoState._id !== id);
+    setProyectos(proyectosActualizados);
+    // Mostrar alerta
+    setAlerta({
+      msg: data.msg,
+      error: false
+    });
+    // Redireccionar
+    setTimeout(() => {
+      setAlerta({});
+      navigate("/proyectos");
+    }, 2500);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handlerModalTarea = () => {
+    setModalFormularioTarea(!ModalFormularioTarea);
+  }
+
+  const submitTarea = async tarea => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if(!token){
+        return
+      }
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.post(`${process.env.REACT_APP_API_URL}/api/tareas`, tarea, config);
+    // Sincronizar el state
+    const proyectosActualizado = { ...proyecto };
+    proyectosActualizado.tareas = [...proyecto.tareas , data];
+    setProyecto(proyectosActualizado);
+    // Mostrar alerta
+    setAlerta({});
+    setModalFormularioTarea(false);
+    // Redireccionar
+
+    } catch (error) {
+    console.log('error:', error)
+    }
+  }
+
   return (
     <ProyectosContext.Provider 
       value={{
@@ -168,7 +239,11 @@ const ProyectosProvider = ({ children }) => {
         submitProyecto,
         obtenerProyectoUnico,
         proyecto,
-        cargando
+        cargando,
+        eliminarProyecto,
+        ModalFormularioTarea,
+        handlerModalTarea,
+        submitTarea
       }}
       >{children}
       </ProyectosContext.Provider>

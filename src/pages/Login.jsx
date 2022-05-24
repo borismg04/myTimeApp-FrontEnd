@@ -12,6 +12,8 @@ const Login = () => {
 
   const { setAuth }= useAuth();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -25,19 +27,17 @@ const Login = () => {
 
     try {
       const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/users/login`, { email, password });
-      setAlerta({
-        msg: data.msg,
-        error: false
-      });
-      
+      setAlerta({});
       localStorage.setItem("token", data.token);
-
+      
       setAuth(data);
+
+      navigate("/proyectos");
 
     } catch (error) {
       setAlerta({
         msg: error.response.data.msg,
-        error: true
+        error: true 
       });
     }
   }
@@ -48,7 +48,7 @@ const Login = () => {
     <>
       <h1 className="text-sky-600 font-black text-6xl capitalize">
         Inicia Sesión & Administra tus
-        <span className="text-slate-700"> Proyectos</span>
+        <span className="text-slate-700">Proyectos</span>
       </h1>
 
       { msg && <Alerta alerta={alerta} /> }
