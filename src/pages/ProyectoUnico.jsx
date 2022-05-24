@@ -70,6 +70,14 @@ const ProyectoUnico = () => {
         <p className='text-center my-5 p-10'>No hay Tareas en este Proyecto 😔</p>}
       </div>
       
+      <div className='flex items-center justify-between mt-10'>
+      <p className='font-bold text-xl '>Colaboradores & Participantes</p>
+      <Link
+        to={`/proyectos/nuevo-colaborador/${proyecto._id}`}
+        className= 'uppercase text-gray-400 hover:text-black font-bold'
+      >Agregar</Link>
+      </div>
+      
       <ModalFormularioTarea/>
       <ModalEliminarTarea/>
     </>
