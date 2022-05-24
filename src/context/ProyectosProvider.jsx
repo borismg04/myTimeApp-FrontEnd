@@ -216,7 +216,14 @@ const ProyectosProvider = ({ children }) => {
     };
 
     const { data }= await axios.post(`${process.env.REACT_APP_API_URL}/api/tareas`, tarea, config);
-    console.log(data);
+    // Sincronizar el state
+    const proyectosActualizado = { ...proyecto };
+    proyectosActualizado.tareas = [...proyecto.tareas , data];
+    setProyecto(proyectosActualizado);
+    // Mostrar alerta
+    setAlerta({});
+    setModalFormularioTarea(false);
+    // Redireccionar
 
     } catch (error) {
     console.log('error:', error)
