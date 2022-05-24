@@ -11,10 +11,13 @@ const ProyectosProvider = ({ children }) => {
   const [proyecto , setProyecto] = useState({});
   const [cargando , setCargando] = useState(false);
   const [ModalFormularioTarea , setModalFormularioTarea] = useState(false);
+  const [tarea , setTarea] = useState({});
 
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    console.log('PRUEBA 1')
     const obtenerProyectos = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -31,6 +34,7 @@ const ProyectosProvider = ({ children }) => {
         };
 
         const { data }= await axios.get(`${process.env.REACT_APP_API_URL}/api/proyectos`, config);
+        console.log('data :', data )
         setProyectos(data);
 
       } catch (error) {
@@ -38,7 +42,7 @@ const ProyectosProvider = ({ children }) => {
       }
     }
     obtenerProyectos();
-  } , []);
+  } , [navigate]);
 
   const mostrarAlerta = alerta => {
     setAlerta(alerta);
@@ -198,9 +202,20 @@ const ProyectosProvider = ({ children }) => {
 
   const handlerModalTarea = () => {
     setModalFormularioTarea(!ModalFormularioTarea);
+    setTarea({});
   }
 
   const submitTarea = async tarea => {
+    
+    if(tarea.id){
+      await editarTarea(tarea)
+    }else{
+      await crearTarea(tarea);
+    }
+  }
+
+  const crearTarea = async tarea => {
+
     try {
       const token = localStorage.getItem("token");
 
@@ -230,6 +245,41 @@ const ProyectosProvider = ({ children }) => {
     }
   }
 
+  const editarTarea = async tarea => {
+
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.put(`${process.env.REACT_APP_API_URL}/api/tareas/${tarea.id}`, tarea, config);
+
+    // Sincronizar el state
+    const proyectosActualizado = { ...proyecto };
+    proyectosActualizado.tareas = proyecto.tareas.map(tareaState => (
+      tareaState._id === data._id ? data : tareaState));
+    setProyecto(proyectosActualizado);
+    // Mostrar alerta
+    setAlerta({});
+    setModalFormularioTarea(false);
+    
+    } catch (error) {
+      console.log('error:', error)
+    }
+  }
+
+  const handleModalEditarTarea = tarea => {
+    setTarea(tarea);
+    setModalFormularioTarea(true);
+  }
+
   return (
     <ProyectosContext.Provider 
       value={{
@@ -243,7 +293,9 @@ const ProyectosProvider = ({ children }) => {
         eliminarProyecto,
         ModalFormularioTarea,
         handlerModalTarea,
-        submitTarea
+        submitTarea,
+        handleModalEditarTarea,
+        tarea
       }}
       >{children}
       </ProyectosContext.Provider>
