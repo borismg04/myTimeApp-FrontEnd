@@ -16,7 +16,8 @@ const ProyectoUnico = () => {
   const params = useParams();
 
   const { obtenerProyectoUnico , proyecto , cargando , 
-    handlerModalTarea , submitTareasProyecto , eliminarTareaProyecto , actualizarTareaProyecto} = useProyectos();
+    handlerModalTarea , submitTareasProyecto , eliminarTareaProyecto , 
+    actualizarTareaProyecto , cambiarEstadoTarea} = useProyectos();
 
   const admin  = useAdmin();
   
@@ -47,6 +48,12 @@ const ProyectoUnico = () => {
     socket.on("tarea actualizada", tareaActualizada => {
       if(tareaActualizada.proyecto._id === proyecto._id) {
         actualizarTareaProyecto(tareaActualizada)
+      }
+    })
+
+    socket.on("nuevo estado",nuevoEstadoTarea => {
+      if(nuevoEstadoTarea.proyecto._id === proyecto._id) {
+        cambiarEstadoTarea(nuevoEstadoTarea)
       }
     })
   })
