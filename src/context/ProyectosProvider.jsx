@@ -372,12 +372,26 @@ const ProyectosProvider = ({ children }) => {
     };
 
     const { data }= await axios.post(
-      `${process.env.REACT_APP_API_URL}/api/proyectos/colaboradores/${proyecto._id}`, 
-      email,config);
-      console.log('data:', data)
+      `${process.env.REACT_APP_API_URL}/api/proyectos/colaboradores/${proyecto._id}`,email,config);
+      
+      setAlerta({
+        msg: data.msg,
+        error: false
+      });
+      setTimeout(() => {
+        setAlerta({});
+      } , 3000);
+
+      setColaborador({});
 
     } catch (error) {
-      console.log('error:', error.responsive)
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true
+      });
+      setTimeout(() => {
+        setAlerta({});
+      } , 2500);
     }
   }
 
