@@ -15,7 +15,8 @@ const ProyectoUnico = () => {
 
   const params = useParams();
 
-  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea ,submitTareasProyecto } = useProyectos();
+  const { obtenerProyectoUnico , proyecto , cargando , 
+    handlerModalTarea , submitTareasProyecto , eliminarTareaProyecto } = useProyectos();
 
   const admin  = useAdmin();
   
@@ -36,17 +37,19 @@ const ProyectoUnico = () => {
           submitTareasProyecto(tareaNueva)
       }
     })
+
+    socket.on("tarea eliminada", tareaEliminada => {
+      if(tareaEliminada.proyecto === proyecto._id) {
+        eliminarTareaProyecto(tareaEliminada)
+      }
+    })
   })
 
   const {nombre }= proyecto;
-  console.log('proyecto:', proyecto)
-
-  
 
   if(cargando){
     return 'Cargando ...';
   }
-
   console.log("Proyecto:",proyecto);
 
   return (

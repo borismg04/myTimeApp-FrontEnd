@@ -50,7 +50,7 @@ const ProyectosProvider = ({ children }) => {
   } , [navigate]);
 
   useEffect(() => {
-    socket = io(`${process.env.REACT_APP_API_URL}`);
+    socket = io(process.env.REACT_APP_API_URL);
   } , []);
 
   const mostrarAlerta = alerta => {
@@ -247,13 +247,13 @@ const ProyectosProvider = ({ children }) => {
     };
 
     const { data }= await axios.post(`${process.env.REACT_APP_API_URL}/api/tareas`, tarea, config);
-    // Sincronizar el state
-    const proyectosActualizado = { ...proyecto };
-    proyectosActualizado.tareas = [...proyecto.tareas , data];
-    setProyecto(proyectosActualizado);
-    // Mostrar alerta
+    // const proyectosActualizado = { ...proyecto };
+    // proyectosActualizado.tareas = [...proyecto.tareas , data];
+    // setProyecto(proyectosActualizado);
     setAlerta({});
     setModalFormularioTarea(false);
+
+
     // SOCKET IO
     socket.emit("nueva tarea", data);
     } catch (error) {
@@ -319,18 +319,17 @@ const ProyectosProvider = ({ children }) => {
       msg: data.msg,
       error: false
     });
+    setModalEliminarTarea(false);
+
+    //Socket 
+    socket.emit("eliminar tarea", tarea);
+
+
+    setTarea({});
     setTimeout(() => {
       setAlerta({});
     } , 2500);
-      
 
-    // Sincronizar el state
-    const proyectosActualizado = { ...proyecto };
-    proyectosActualizado.tareas = proyectosActualizado.tareas.filter(tareaState => tareaState._id !== tarea._id);
-    
-    setProyecto(proyectosActualizado);
-    setModalEliminarTarea(false);
-    setTarea({});
     } catch (error) {
       console.log('error:', error)
     }
@@ -490,7 +489,17 @@ const ProyectosProvider = ({ children }) => {
     const proyectoActualizado = {...proyecto}
     proyectoActualizado.tareas = [...proyectoActualizado.tareas, tarea]
     setProyecto(proyectoActualizado)
-}
+  }
+
+  const eliminarTareaProyecto = (tarea) => {
+
+    const proyectosActualizado = { ...proyecto };
+    proyectosActualizado.tareas = proyectosActualizado.tareas.filter(
+      tareaState => tareaState._id !== tarea._id);
+    setProyecto(proyectosActualizado);
+  }
+
+
   return (
     <ProyectosContext.Provider 
       value={{
@@ -519,7 +528,8 @@ const ProyectosProvider = ({ children }) => {
         completarTarea,
         handleBuscador,
         buscador,
-        submitTareasProyecto
+        submitTareasProyecto,
+        eliminarTareaProyecto
       }}
       >{children}
       </ProyectosContext.Provider>
