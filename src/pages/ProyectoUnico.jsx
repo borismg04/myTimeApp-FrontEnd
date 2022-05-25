@@ -15,7 +15,7 @@ const ProyectoUnico = () => {
 
   const params = useParams();
 
-  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea } = useProyectos();
+  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea ,submitTareasProyecto } = useProyectos();
 
   const admin  = useAdmin();
   
@@ -24,18 +24,33 @@ const ProyectoUnico = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   } , []);
 
-  useEffect(() => {
-    socket = io(`${process.env.REACT_APP_API_URL}`);
+  // useEffect(() => {
+  //   socket = io(`${process.env.REACT_APP_API_URL}`);
 
-    socket.emit("abrir proyecto", params.id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  } , []);
+  //   socket.emit("abrir proyecto", params.id);
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // } , []);
+
+  // useEffect(() => {
+  //   socket.on("tarea agregada",tareaNueva=>{
+  //     if(tareaNueva.proyecto === proyecto._id){
+  //       submitTareasProyecto(tareaNueva);
+  //     }
+  //   })
+  // })
 
   useEffect(() => {
-    socket.on("respuesta",(persona)=>{
-    console.log('persona:', persona)
+    socket = io(process.env.REACT_APP_API_URL);
+    socket.emit('abrir proyecto', params.id)
+  }, [])
+
+  useEffect(() => {
+    socket.on("tarea agregada", tareaNueva => {
+      if(tareaNueva.proyecto === proyecto._id) {
+          submitTareasProyecto(tareaNueva)
+      }
     })
-  });
+  })
 
   const {nombre }= proyecto;
   console.log('proyecto:', proyecto)

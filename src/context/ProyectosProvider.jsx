@@ -1,6 +1,10 @@
 import { useState ,useEffect , createContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import io from "socket.io-client";
+import { data } from "autoprefixer";
+
+let socket;
 
 const ProyectosContext = createContext();
 
@@ -45,6 +49,10 @@ const ProyectosProvider = ({ children }) => {
     }
     obtenerProyectos();
   } , [navigate]);
+
+  useEffect(() => {
+    socket = io(`${process.env.REACT_APP_API_URL}`);
+  } , []);
 
   const mostrarAlerta = alerta => {
     setAlerta(alerta);
@@ -247,8 +255,8 @@ const ProyectosProvider = ({ children }) => {
     // Mostrar alerta
     setAlerta({});
     setModalFormularioTarea(false);
-    // Redireccionar
-
+    // SOCKET IO
+    socket.emit("nueva tarea", data);
     } catch (error) {
     console.log('error:', error)
     }
@@ -478,7 +486,12 @@ const ProyectosProvider = ({ children }) => {
   const handleBuscador = () => {
     setBuscador(!buscador);
   }
-
+  //Socket.io
+  const submitTareasProyecto = (tarea) => {
+    const proyectoActualizado = {...proyecto}
+    proyectoActualizado.tareas = [...proyectoActualizado.tareas, tarea]
+    setProyecto(proyectoActualizado)
+}
   return (
     <ProyectosContext.Provider 
       value={{
@@ -506,7 +519,8 @@ const ProyectosProvider = ({ children }) => {
         eliminarColaborador,
         completarTarea,
         handleBuscador,
-        buscador
+        buscador,
+        submitTareasProyecto
       }}
       >{children}
       </ProyectosContext.Provider>

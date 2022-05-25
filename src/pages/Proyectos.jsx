@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import useProyectos from "../hooks/useProyectos";
 import ListaProyectos from "../components/ListaProyectos";
 import Alerta from "../components/Alerta";
