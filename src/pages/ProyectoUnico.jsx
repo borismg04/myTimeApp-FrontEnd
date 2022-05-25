@@ -6,14 +6,14 @@ import ModalFormularioTarea from '../components/ModalFormularioTarea';
 import ModalEliminarTarea from '../components/ModalEliminarTarea';
 import ModalEliminarColaborador from '../components/ModalEliminarColaborador';
 import Tarea from '../components/Tarea';
-import Alerta from '../components/Alerta';
+// import Alerta from '../components/Alerta';
 import Colaborador from '../components/Colaborador';
 
 const ProyectoUnico = () => {
 
   const params = useParams();
 
-  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea, alerta } = useProyectos();
+  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea } = useProyectos();
 
   const admin  = useAdmin();
   
@@ -31,7 +31,7 @@ const ProyectoUnico = () => {
     return 'Cargando ...';
   }
 
-  const { msg } = alerta;
+  // const { msg } = alerta;
 
   console.log("Proyecto:",proyecto);
 
