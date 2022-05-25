@@ -24,24 +24,10 @@ const ProyectoUnico = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   } , []);
 
-  // useEffect(() => {
-  //   socket = io(`${process.env.REACT_APP_API_URL}`);
-
-  //   socket.emit("abrir proyecto", params.id);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // } , []);
-
-  // useEffect(() => {
-  //   socket.on("tarea agregada",tareaNueva=>{
-  //     if(tareaNueva.proyecto === proyecto._id){
-  //       submitTareasProyecto(tareaNueva);
-  //     }
-  //   })
-  // })
-
   useEffect(() => {
     socket = io(process.env.REACT_APP_API_URL);
     socket.emit('abrir proyecto', params.id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
