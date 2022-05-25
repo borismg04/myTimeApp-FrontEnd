@@ -1,5 +1,6 @@
 import { useEffect} from 'react';
 import { useParams ,Link } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 import useProyectos from '../hooks/useProyectos';
 import ModalFormularioTarea from '../components/ModalFormularioTarea';
 import ModalEliminarTarea from '../components/ModalEliminarTarea';
@@ -14,6 +15,8 @@ const ProyectoUnico = () => {
 
   const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea, alerta } = useProyectos();
 
+  const { auth } = useAuth();
+
   useEffect(() => {
     obtenerProyectoUnico(params.id);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,7 +30,12 @@ const ProyectoUnico = () => {
 
   const { msg } = alerta;
 
+  console.log("Proyecto:",proyecto);
+  console.log("Auth:",auth);
+
   return (
+
+    msg && alerta.error ? <Alerta alerta={alerta} /> : (
     <>
     <div className='flex justify-between'>
       <h1 className='font-black text-4xl'>{nombre}</h1>
@@ -102,6 +110,7 @@ const ProyectoUnico = () => {
       <ModalEliminarColaborador/>
     </>
   )
+  );
 }
 
 export default ProyectoUnico
