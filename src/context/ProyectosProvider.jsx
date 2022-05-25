@@ -435,7 +435,7 @@ const ProyectosProvider = ({ children }) => {
       setColaborador({});
       setModalEliminarColaborador(false);
 
-    } catch (error) {
+    } catch (error) { 
       console.log('error:', error)
     }
   }
