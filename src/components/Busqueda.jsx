@@ -28,7 +28,6 @@ const Busqueda = () => {
           >
             <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" />
           </Transition.Child>
-
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -50,7 +49,6 @@ const Busqueda = () => {
                 onChange={(e) => setBusqueda(e.target.value)}
               />
               </div>
-
               {proyectosFiltrados.length > 0 && (
                 <Combobox.Options static className="max-h-72 scroll-py-2 overflow-y-auto py-2 
                 text-sm text-gray-800">
@@ -73,5 +71,4 @@ const Busqueda = () => {
       </Transition.Root>
     )
 }
-
 export default Busqueda
