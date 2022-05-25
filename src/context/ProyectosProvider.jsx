@@ -14,6 +14,7 @@ const ProyectosProvider = ({ children }) => {
   const [tarea , setTarea] = useState({});
   const [ModalEliminarTarea , setModalEliminarTarea] = useState(false);
   const [colaborador , setColaborador] = useState({});
+  const [ModalEliminarColaborador , setModalEliminarColaborador] = useState(false);
 
   const navigate = useNavigate();
 
@@ -395,6 +396,15 @@ const ProyectosProvider = ({ children }) => {
     }
   }
 
+  const handleModalEliminarColaborador = async (colaborador) => {
+    setModalEliminarColaborador(!ModalEliminarColaborador);
+    setColaborador(colaborador);
+  }
+
+  const eliminarColaborador = async () => {
+    console.log(colaborador);
+  }
+
   return (
     <ProyectosContext.Provider 
       value={{
@@ -416,7 +426,10 @@ const ProyectosProvider = ({ children }) => {
         eliminarTarea,
         submitColaborador,
         colaborador,
-        agregarColaborador
+        agregarColaborador,
+        ModalEliminarColaborador,
+        handleModalEliminarColaborador,
+        eliminarColaborador
       }}
       >{children}
       </ProyectosContext.Provider>
