@@ -5,6 +5,7 @@ import ModalFormularioTarea from '../components/ModalFormularioTarea';
 import ModalEliminarTarea from '../components/ModalEliminarTarea';
 import Tarea from '../components/Tarea';
 import Alerta from '../components/Alerta';
+import Colaborador from '../components/Colaborador';
 
 const ProyectoUnico = () => {
 
@@ -18,6 +19,8 @@ const ProyectoUnico = () => {
   } , []);
 
   const {nombre }= proyecto;
+  console.log('proyecto:', proyecto)
+
 
   if(cargando){
     return 'Cargando ...';
@@ -82,6 +85,17 @@ const ProyectoUnico = () => {
           className= 'uppercase text-gray-400 hover:text-black font-bold'
         >Agregar</Link>
         </div>
+      </div>
+
+      <div className='bg-white shadow mt-10 rounded-lg'>
+        {proyecto.colaboradores?.length ? 
+          proyecto.colaboradores?.map(colaborador => (
+            <Colaborador
+              key={colaborador._id}
+              colaborador={colaborador}
+            />
+        )) :
+        <p className='text-center my-5 p-10'>No hay Colaboradores en este Proyecto 🤨</p>}
       </div>
       
       <ModalFormularioTarea/>
