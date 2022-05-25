@@ -6,14 +6,18 @@ import ModalFormularioTarea from '../components/ModalFormularioTarea';
 import ModalEliminarTarea from '../components/ModalEliminarTarea';
 import ModalEliminarColaborador from '../components/ModalEliminarColaborador';
 import Tarea from '../components/Tarea';
-// import Alerta from '../components/Alerta';
 import Colaborador from '../components/Colaborador';
+import io from 'socket.io-client';
+
+let socket;
 
 const ProyectoUnico = () => {
 
   const params = useParams();
 
-  const { obtenerProyectoUnico , proyecto , cargando , handlerModalTarea } = useProyectos();
+  const { obtenerProyectoUnico , proyecto , cargando , 
+    handlerModalTarea , submitTareasProyecto , eliminarTareaProyecto , 
+    actualizarTareaProyecto , cambiarEstadoTarea} = useProyectos();
 
   const admin  = useAdmin();
   
@@ -22,17 +26,43 @@ const ProyectoUnico = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   } , []);
 
-  const {nombre }= proyecto;
-  console.log('proyecto:', proyecto)
+  useEffect(() => {
+    socket = io(process.env.REACT_APP_API_URL);
+    socket.emit('abrir proyecto', params.id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  
+  useEffect(() => {
+    socket.on("tarea agregada", tareaNueva => {
+      if(tareaNueva.proyecto === proyecto._id) {
+          submitTareasProyecto(tareaNueva)
+      }
+    })
+
+    socket.on("tarea eliminada", tareaEliminada => {
+      if(tareaEliminada.proyecto === proyecto._id) {
+        eliminarTareaProyecto(tareaEliminada)
+      }
+    })
+
+    socket.on("tarea actualizada", tareaActualizada => {
+      if(tareaActualizada.proyecto._id === proyecto._id) {
+        actualizarTareaProyecto(tareaActualizada)
+      }
+    })
+
+    socket.on("nuevo estado",nuevoEstadoTarea => {
+      if(nuevoEstadoTarea.proyecto._id === proyecto._id) {
+        cambiarEstadoTarea(nuevoEstadoTarea)
+      }
+    })
+  })
+
+  const {nombre }= proyecto;
 
   if(cargando){
     return 'Cargando ...';
   }
-
-  // const { msg } = alerta;
-
   console.log("Proyecto:",proyecto);
 
   return (
