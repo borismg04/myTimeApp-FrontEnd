@@ -23,6 +23,9 @@ const ProyectoUnico = () => {
   } , []);
 
   const {nombre }= proyecto;
+  console.log('proyecto:', proyecto)
+
+  
 
   if(cargando){
     return 'Cargando ...';
