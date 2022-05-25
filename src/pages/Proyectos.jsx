@@ -2,20 +2,12 @@ import { useEffect } from "react";
 import useProyectos from "../hooks/useProyectos";
 import ListaProyectos from "../components/ListaProyectos";
 import Alerta from "../components/Alerta";
-import io from "socket.io-client";
-
-let socket;
 
 const Proyectos = () => {
 
   const { proyectos,alerta } = useProyectos();
 
   const { msg } = alerta;
-
-  useEffect(() => {
-    socket = io(`${process.env.REACT_APP_API_URL}`);
-
-  } , []);
 
   return (
     <>

@@ -6,8 +6,10 @@ import ModalFormularioTarea from '../components/ModalFormularioTarea';
 import ModalEliminarTarea from '../components/ModalEliminarTarea';
 import ModalEliminarColaborador from '../components/ModalEliminarColaborador';
 import Tarea from '../components/Tarea';
-// import Alerta from '../components/Alerta';
 import Colaborador from '../components/Colaborador';
+import io from 'socket.io-client';
+
+let socket;
 
 const ProyectoUnico = () => {
 
@@ -22,6 +24,19 @@ const ProyectoUnico = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   } , []);
 
+  useEffect(() => {
+    socket = io(`${process.env.REACT_APP_API_URL}`);
+
+    socket.emit("abrir proyecto", params.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  } , []);
+
+  useEffect(() => {
+    socket.on("respuesta",(persona)=>{
+    console.log('persona:', persona)
+    })
+  });
+
   const {nombre }= proyecto;
   console.log('proyecto:', proyecto)
 
@@ -30,8 +45,6 @@ const ProyectoUnico = () => {
   if(cargando){
     return 'Cargando ...';
   }
-
-  // const { msg } = alerta;
 
   console.log("Proyecto:",proyecto);
 
