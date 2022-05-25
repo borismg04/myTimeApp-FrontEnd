@@ -1,5 +1,5 @@
 import { useState, useEffect , createContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
   const [auth , setAuth] = useState({});
   const [cargando , setCargando] = useState(true);
 
-  const navigate  = useNavigate();
+  // const navigate  = useNavigate();
 
 
 
