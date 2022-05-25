@@ -359,7 +359,6 @@ const ProyectosProvider = ({ children }) => {
   }
 
   const agregarColaborador = async email => {
-    console.log(proyecto);
     try {
       const token = localStorage.getItem("token");
       if(!token){
@@ -402,7 +401,43 @@ const ProyectosProvider = ({ children }) => {
   }
 
   const eliminarColaborador = async () => {
-    console.log(colaborador);
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/proyectos/eliminar-colaborador/${proyecto._id}`,
+      {id:colaborador._id},config);
+
+      const proyectosActualizado = { ...proyecto };
+
+      proyectosActualizado.colaboradores = proyectosActualizado.colaboradores.filter(
+        colaboradorState => colaboradorState._id !== colaborador._id);
+
+      setProyecto(proyectosActualizado);
+      
+      setAlerta({
+        msg: data.msg,
+        error: false
+      });
+      setTimeout(() => {
+        setAlerta({});
+      } , 3000);
+
+      setColaborador({});
+      setModalEliminarColaborador(false);
+
+    } catch (error) {
+      console.log('error:', error)
+    }
   }
 
   return (
