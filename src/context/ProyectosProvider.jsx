@@ -13,6 +13,7 @@ const ProyectosProvider = ({ children }) => {
   const [ModalFormularioTarea , setModalFormularioTarea] = useState(false);
   const [tarea , setTarea] = useState({});
   const [ModalEliminarTarea , setModalEliminarTarea] = useState(false);
+  const [colaborador , setColaborador] = useState({});
 
   const navigate = useNavigate();
 
@@ -157,7 +158,10 @@ const ProyectosProvider = ({ children }) => {
       setProyecto(data);
 
     } catch (error) {
-      console.log(error);
+      setAlerta({
+        msg: 'Error al obtener el proyecto',
+        error: true
+      });
     }
 
     setCargando(false);
@@ -320,7 +324,61 @@ const ProyectosProvider = ({ children }) => {
   }
 
   const submitColaborador = async email => {
-    console.log(email);
+    
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.post(`${process.env.REACT_APP_API_URL}/api/proyectos/colaboradores`, {email}, config);
+    
+    setColaborador(data);
+    setAlerta({});
+
+    }catch (error) {
+        setAlerta({
+          msg: error.response.data.msg,
+          error: true
+      });
+        setTimeout(() => {
+          setAlerta({});
+        } , 2500);
+    } finally {
+      setCargando(false);
+    }
+  }
+
+  const agregarColaborador = async email => {
+    console.log(proyecto);
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/proyectos/colaboradores/${proyecto._id}`, 
+      email,config);
+      console.log('data:', data)
+
+    } catch (error) {
+      console.log('error:', error.responsive)
+    }
   }
 
   return (
@@ -342,7 +400,9 @@ const ProyectosProvider = ({ children }) => {
         handleEliminarTarea,
         ModalEliminarTarea,
         eliminarTarea,
-        submitColaborador
+        submitColaborador,
+        colaborador,
+        agregarColaborador
       }}
       >{children}
       </ProyectosContext.Provider>
