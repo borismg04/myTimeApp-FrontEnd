@@ -43,19 +43,24 @@ const AuthProvider = ({ children }) => {
 // eslint-disable-next-line react-hooks/exhaustive-deps
 , []);
 
+  const cerrarSesionAuth = () => {
+    setAuth({});
+  }
+
   return (
     <AuthContext.Provider 
     value={{
       auth,
       setAuth,
-      cargando
+      cargando,
+      cerrarSesionAuth
     }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export { AuthContext, AuthProvider };
+export { AuthContext, AuthProvider};
 
 export default AuthContext;
 
