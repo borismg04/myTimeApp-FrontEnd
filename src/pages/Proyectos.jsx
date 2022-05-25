@@ -1,14 +1,18 @@
 import useProyectos from "../hooks/useProyectos";
 import ListaProyectos from "../components/ListaProyectos";
+import Alerta from "../components/Alerta";
 
 const Proyectos = () => {
 
-  const { proyectos } = useProyectos();
-  console.log('proyectos:', proyectos)
+  const { proyectos,alerta } = useProyectos();
+
+  const { msg } = alerta;
 
   return (
     <>
       <h1 className="text-4xl font-black">Mis Proyectos</h1>
+
+      {msg && <Alerta msg={msg} />}
 
       <div className="bg-white shadow mt-10 rounded-lg p-8">
         {proyectos.length ?  

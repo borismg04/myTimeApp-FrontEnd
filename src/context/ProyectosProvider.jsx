@@ -13,6 +13,8 @@ const ProyectosProvider = ({ children }) => {
   const [ModalFormularioTarea , setModalFormularioTarea] = useState(false);
   const [tarea , setTarea] = useState({});
   const [ModalEliminarTarea , setModalEliminarTarea] = useState(false);
+  const [colaborador , setColaborador] = useState({});
+  const [ModalEliminarColaborador , setModalEliminarColaborador] = useState(false);
 
   const navigate = useNavigate();
 
@@ -157,7 +159,14 @@ const ProyectosProvider = ({ children }) => {
       setProyecto(data);
 
     } catch (error) {
-      console.log(error);
+      navigate("/proyectos");
+      setAlerta({
+        msg: 'Error al obtener el proyecto',
+        error: true
+      });
+      setTimeout(() => {
+        setAlerta({});
+      }, 3000);
     }
 
     setCargando(false);
@@ -319,6 +328,152 @@ const ProyectosProvider = ({ children }) => {
     }
   }
 
+  const submitColaborador = async email => {
+    
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.post(`${process.env.REACT_APP_API_URL}/api/proyectos/colaboradores`, {email}, config);
+    
+    setColaborador(data);
+    setAlerta({});
+
+    }catch (error) {
+        setAlerta({
+          msg: error.response.data.msg,
+          error: true
+      });
+        setTimeout(() => {
+          setAlerta({});
+        } , 2500);
+    } finally {
+      setCargando(false);
+    }
+  }
+
+  const agregarColaborador = async email => {
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/proyectos/colaboradores/${proyecto._id}`,email,config);
+      
+      setAlerta({
+        msg: data.msg,
+        error: false
+      });
+      setTimeout(() => {
+        setAlerta({});
+      } , 3000);
+
+      setColaborador({});
+
+    } catch (error) {
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true
+      });
+      setTimeout(() => {
+        setAlerta({});
+      } , 2500);
+    }
+  }
+
+  const handleModalEliminarColaborador = async (colaborador) => {
+    setModalEliminarColaborador(!ModalEliminarColaborador);
+    setColaborador(colaborador);
+  }
+
+  const eliminarColaborador = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data }= await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/proyectos/eliminar-colaborador/${proyecto._id}`,
+      {id:colaborador._id},config);
+
+      const proyectosActualizado = { ...proyecto };
+
+      proyectosActualizado.colaboradores = proyectosActualizado.colaboradores.filter(
+        colaboradorState => colaboradorState._id !== colaborador._id);
+
+      setProyecto(proyectosActualizado);
+      
+      setAlerta({
+        msg: data.msg,
+        error: false
+      });
+      setTimeout(() => {
+        setAlerta({});
+      } , 3000);
+
+      setColaborador({});
+      setModalEliminarColaborador(false);
+
+    } catch (error) { 
+      console.log('error:', error)
+    }
+  }
+
+  const completarTarea = async id => {
+    
+    try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        return
+      }
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+      }
+    };
+
+    const { data } = await axios.post( `${process.env.REACT_APP_API_URL}/api/tareas/estado/${id}`, {}, config);
+    console.log('data:', data)
+
+    const proyectosActualizado = { ...proyecto };
+    proyectosActualizado.tareas = proyectosActualizado.tareas.map(
+      tareaState => tareaState._id === data._id ? data : tareaState);
+
+    setProyecto(proyectosActualizado);
+    setTarea({});
+    setAlerta({});
+
+    } catch (error) {
+      console.log('error:', error.response)
+    }
+  }
+
   return (
     <ProyectosContext.Provider 
       value={{
@@ -337,7 +492,14 @@ const ProyectosProvider = ({ children }) => {
         tarea,
         handleEliminarTarea,
         ModalEliminarTarea,
-        eliminarTarea
+        eliminarTarea,
+        submitColaborador,
+        colaborador,
+        agregarColaborador,
+        ModalEliminarColaborador,
+        handleModalEliminarColaborador,
+        eliminarColaborador,
+        completarTarea
       }}
       >{children}
       </ProyectosContext.Provider>
