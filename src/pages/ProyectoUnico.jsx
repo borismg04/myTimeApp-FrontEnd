@@ -69,8 +69,6 @@ const ProyectoUnico = () => {
 
       <p className='font-bold text-xl mt-10'>Tareas del Proyecto</p>
 
-      {msg && <Alerta alerta={alerta} />}
-
       <div className='bg-white shadow mt-10 rounded-lg'>
         {proyecto.tareas?.length ? 
           proyecto.tareas?.map(tarea => (

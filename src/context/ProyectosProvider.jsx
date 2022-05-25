@@ -159,10 +159,14 @@ const ProyectosProvider = ({ children }) => {
       setProyecto(data);
 
     } catch (error) {
+      navigate("/proyectos");
       setAlerta({
         msg: 'Error al obtener el proyecto',
         error: true
       });
+      setTimeout(() => {
+        setAlerta({});
+      }, 3000);
     }
 
     setCargando(false);
